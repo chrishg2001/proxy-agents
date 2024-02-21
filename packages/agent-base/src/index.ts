@@ -1,6 +1,7 @@
 import * as net from 'net';
 import * as tls from 'tls';
 import * as http from 'http';
+import * as https from 'https';
 import type { Duplex } from 'stream';
 
 export * from './helpers';
@@ -26,14 +27,14 @@ interface InternalState {
 	currentSocket?: Duplex;
 }
 
-export abstract class Agent extends http.Agent {
+export abstract class Agent extends https.Agent {
 	private [INTERNAL]: InternalState;
 
 	// Set by `http.Agent` - missing from `@types/node`
 	options!: Partial<net.TcpNetConnectOpts & tls.ConnectionOptions>;
 	keepAlive!: boolean;
 
-	constructor(opts?: http.AgentOptions) {
+	constructor(opts?: https.AgentOptions) {
 		super(opts);
 		this[INTERNAL] = {};
 	}
@@ -41,7 +42,7 @@ export abstract class Agent extends http.Agent {
 	abstract connect(
 		req: http.ClientRequest,
 		options: AgentConnectOpts
-	): Promise<Duplex | http.Agent> | Duplex | http.Agent;
+	): Promise<Duplex | https.Agent> | Duplex | https.Agent;
 
 	/**
 	 * Determine whether this is an `http` or `https` request.

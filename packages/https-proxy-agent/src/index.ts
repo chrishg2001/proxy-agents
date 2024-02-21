@@ -1,6 +1,7 @@
 import * as net from 'net';
 import * as tls from 'tls';
 import * as http from 'http';
+import * as https from 'https';
 import assert from 'assert';
 import createDebug from 'debug';
 import { Agent, AgentConnectOpts } from 'agent-base';
@@ -25,7 +26,7 @@ type ConnectOpts<T> = {
 }[keyof ConnectOptsMap];
 
 export type HttpsProxyAgentOptions<T> = ConnectOpts<T> &
-	http.AgentOptions & {
+	https.AgentOptions & {
 		headers?: OutgoingHttpHeaders | (() => OutgoingHttpHeaders);
 	};
 
